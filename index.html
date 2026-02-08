@@ -9,18 +9,20 @@
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
         body { background-color: #fff5f5; overflow: hidden; font-family: sans-serif; }
         .cursive { font-family: 'Dancing Script', cursive; }
-        #noBtn { position: absolute; transition: all 0.15s ease; z-index: 20; }
+        #noBtn { position: relative; transition: all 0.15s ease; z-index: 20; }
         .hidden { display: none; }
+        #btnWrapper { display: flex; justify-content: center; align-items: center; gap: 20px; min-height: 100px; }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen">
 
     <div id="page1" class="text-center p-8 bg-white rounded-3xl shadow-xl z-10 max-w-md border-4 border-pink-200">
         <h1 class="text-4xl font-bold text-pink-600 mb-10 cursive">Wil je mijn Valentijn zijn?</h1>
-        <div class="flex justify-center items-center gap-6">
+        <div id="btnWrapper">
             <button id="yesBtn" onclick="toonSucces()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all">
                 JA!
             </button>
+
             <button id="noBtn" class="bg-red-400 text-white font-bold py-3 px-6 rounded-lg border-2 border-red-500 shadow-md">
                 nee
             </button>
@@ -32,7 +34,7 @@
         <h2 class="text-3xl font-bold text-gray-800 mb-4 cursive text-pink-600">Geweldig! ❤️</h2>
         <p class="text-xl text-gray-700 font-semibold leading-relaxed">
             U wordt verwacht op <br>
-            <span class="text-2xl text-pink-500 font-bold italic">donderdag 12/2</span> <br>
+            <span class="text-2xl text-pink-500 font-bold italic">donderdag 12/2 om 19u</span> <br>
             op <span class="text-gray-900 underline">Grauwpoort 7 te Gent</span>.
         </p>
     </div>
@@ -48,14 +50,19 @@
 
         const noTexts = [
             "Ben je zeker?", 
-            "plzzz", 
+            "plzzz?", 
             "Je breekt mijn hartje", 
             "Ok ik ga mijn verdriet doen verdwijnen met happy pills", 
             "Merlin is verdrietig", 
-            "plzzz"
+            "plzzz?"
         ];
 
         function moveButton() {
+            // Maak de NEE-knop zwevend (absolute) zodra de interactie begint
+            if (noBtn.style.position !== 'absolute') {
+                noBtn.style.position = 'absolute';
+            }
+
             // Vergroot de JA knop
             yesScale += 0.5;
             yesBtn.style.transform = `scale(${yesScale})`;
@@ -64,11 +71,11 @@
             if (noClickCount < noTexts.length) {
                 noBtn.innerText = noTexts[noClickCount];
             } else {
-                noBtn.innerText = "plzzz";
+                noBtn.innerText = "plzzz?";
             }
             noClickCount++;
 
-            // Verplaats de NEE knop naar een willekeurige plek
+            // Verplaats de NEE knop naar een willekeurige plek op het scherm
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             
@@ -76,7 +83,6 @@
             noBtn.style.top = `${y}px`;
         }
 
-        // Reageert op hover (voor desktop) en click (voor mobiel)
         noBtn.addEventListener('mouseover', moveButton);
         noBtn.addEventListener('click', (e) => {
             e.preventDefault();
