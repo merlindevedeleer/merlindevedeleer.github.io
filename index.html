@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Belangrijke Vraag</title>
+    <title>Voor mijn Valentijn</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
         body { background-color: #fff5f5; overflow: hidden; font-family: sans-serif; }
-        #noBtn { position: absolute; transition: all 0.2s ease; z-index: 10; }
+        .cursive { font-family: 'Dancing Script', cursive; }
+        #noBtn { position: absolute; transition: all 0.15s ease; z-index: 20; }
         .hidden { display: none; }
     </style>
 </head>
@@ -19,18 +21,19 @@
             <button id="yesBtn" onclick="toonSucces()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all">
                 JA!
             </button>
-            <button id="noBtn" class="bg-gray-400 text-gray-700 font-bold py-1 px-2 rounded border-2 border-gray-500 text-xs opacity-50">
+            <button id="noBtn" class="bg-red-400 text-white font-bold py-3 px-6 rounded-lg border-2 border-red-500 shadow-md">
                 nee
             </button>
         </div>
     </div>
 
-    <div id="page2" class="hidden text-center p-10 bg-white rounded-3xl shadow-2xl border-4 border-pink-400 max-w-lg">
-        <h1 class="text-5xl mb-6">❤️</h1>
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Geweldig!</h2>
-        <p class="text-xl text-pink-600 font-semibold leading-relaxed">
-            U wordt verwacht op donderdag 12/2 om 19:00 op <br>
-            <span class="text-gray-900 underline">Grauwpoort 7 te Gent</span>.
+    <div id="page2" class="hidden text-center p-10 bg-white rounded-3xl shadow-2xl border-4 border-pink-400 max-w-lg mx-4">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmo3OXhndm52ZzVqbm52ZzVqbm52ZzVqbm52ZzVqbm52ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/MDJ9IbxxvDUQM/giphy.gif" alt="Feestende kat" class="mx-auto w-48 mb-6">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4 cursive text-pink-600">Geweldig! ❤️</h2>
+        <p class="text-xl text-gray-700 font-semibold leading-relaxed">
+            U wordt verwacht op <br>
+            <span class="text-2xl text-pink-500 font-bold italic">donderdag 12/2</span> <br>
+            op <span class="text-gray-900 underline">Grauwpoort 7 te Gent</span>.
         </p>
     </div>
 
@@ -39,22 +42,47 @@
         const yesBtn = document.getElementById('yesBtn');
         const page1 = document.getElementById('page1');
         const page2 = document.getElementById('page2');
-        let scale = 1;
+        
+        let yesScale = 1;
+        let noClickCount = 0;
 
-        // Functie voor de Nee-knop
+        const noTexts = [
+            "Ben je zeker?", 
+            "plzzz", 
+            "Je breekt mijn hartje", 
+            "Ok ik ga mijn verdriet doen verdwijnen met happy pills", 
+            "Merlin is verdrietig", 
+            "plzzz"
+        ];
+
         function moveButton() {
-            scale += 0.5;
-            yesBtn.style.transform = `scale(${scale})`;
+            // Vergroot de JA knop
+            yesScale += 0.5;
+            yesBtn.style.transform = `scale(${yesScale})`;
+            
+            // Verander de tekst van de NEE knop
+            if (noClickCount < noTexts.length) {
+                noBtn.innerText = noTexts[noClickCount];
+            } else {
+                noBtn.innerText = "plzzz";
+            }
+            noClickCount++;
+
+            // Verplaats de NEE knop naar een willekeurige plek
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         }
 
+        // Reageert op hover (voor desktop) en click (voor mobiel)
         noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('click', moveButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
 
-        // Functie om te wisselen naar de succes-weergave
         function toonSucces() {
             page1.classList.add('hidden');
             page2.classList.remove('hidden');
