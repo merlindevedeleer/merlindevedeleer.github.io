@@ -6,47 +6,60 @@
     <title>Belangrijke Vraag</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #fff5f5; overflow: hidden; font-family: 'sans-serif'; }
-        #noBtn { position: absolute; transition: all 0.2s ease; }
-        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        body { background-color: #fff5f5; overflow: hidden; font-family: sans-serif; }
+        #noBtn { position: absolute; transition: all 0.2s ease; z-index: 10; }
+        .hidden { display: none; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1 id="question" class="text-4xl font-bold text-pink-600 mb-10 text-center px-4">Wil je mijn Valentijn zijn?</h1>
-        
-        <div class="flex items-center justify-center gap-10" id="btnWrapper">
-            <button id="yesBtn" onclick="location.href='succes.html'" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all">
+<body class="flex items-center justify-center min-h-screen">
+
+    <div id="page1" class="text-center p-8 bg-white rounded-3xl shadow-xl z-10 max-w-md border-4 border-pink-200">
+        <h1 class="text-4xl font-bold text-pink-600 mb-10 cursive">Wil je mijn Valentijn zijn?</h1>
+        <div class="flex justify-center items-center gap-6">
+            <button id="yesBtn" onclick="toonSucces()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all">
                 JA!
             </button>
-
             <button id="noBtn" class="bg-gray-400 text-gray-700 font-bold py-1 px-2 rounded border-2 border-gray-500 text-xs opacity-50">
                 nee
             </button>
         </div>
     </div>
 
+    <div id="page2" class="hidden text-center p-10 bg-white rounded-3xl shadow-2xl border-4 border-pink-400 max-w-lg">
+        <h1 class="text-5xl mb-6">❤️</h1>
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Geweldig!</h2>
+        <p class="text-xl text-pink-600 font-semibold leading-relaxed">
+            U wordt verwacht op donderdag 12/2 om 19:00 op <br>
+            <span class="text-gray-900 underline">Grauwpoort 7 te Gent</span>.
+        </p>
+    </div>
+
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
         let scale = 1;
 
+        // Functie voor de Nee-knop
         function moveButton() {
-            // Vergroot de JA knop
-            scale += 0.4;
+            scale += 0.5;
             yesBtn.style.transform = `scale(${scale})`;
-            
-            // Verplaats de NEE knop naar een willekeurige plek
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
         }
 
-        // De knop ontsnapt bij hoveren én bij klikken
         noBtn.addEventListener('mouseover', moveButton);
         noBtn.addEventListener('click', moveButton);
+
+        // Functie om te wisselen naar de succes-weergave
+        function toonSucces() {
+            page1.classList.add('hidden');
+            page2.classList.remove('hidden');
+            document.body.style.backgroundColor = "#ffe4e6";
+        }
     </script>
 </body>
 </html>
