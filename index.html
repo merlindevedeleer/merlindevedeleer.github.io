@@ -9,14 +9,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
         body { background-color: #fff5f5; overflow: hidden; font-family: sans-serif; }
         .cursive { font-family: 'Dancing Script', cursive; }
-        #noBtn { position: relative; transition: all 0.15s ease; z-index: 20; }
+        #noBtn { position: relative; transition: all 0.15s ease; z-index: 20; white-space: nowrap; }
         .hidden { display: none; }
         #btnWrapper { display: flex; justify-content: center; align-items: center; gap: 20px; min-height: 100px; }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen">
 
-    <div id="page1" class="text-center p-8 bg-white rounded-3xl shadow-xl z-10 max-w-md border-4 border-pink-200">
+    <div id="page1" class="text-center p-8 bg-white rounded-3xl shadow-xl z-10 max-w-md border-4 border-pink-200 mx-4">
         <h1 class="text-4xl font-bold text-pink-600 mb-10 cursive">Wil je mijn Valentijn zijn?</h1>
         <div id="btnWrapper">
             <button id="yesBtn" onclick="toonSucces()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-full shadow-lg transition-all">
@@ -54,20 +54,20 @@
             "Je breekt mijn hartje", 
             "Ok ik ga mijn verdriet doen verdwijnen met happy pills", 
             "Merlin is verdrietig", 
+            "and if i ask in english?",
+            "ou en francais?",
+            "allee komaaan het wordt leukk :(((",
             "plzzz?"
         ];
 
         function moveButton() {
-            // Maak de NEE-knop zwevend (absolute) zodra de interactie begint
             if (noBtn.style.position !== 'absolute') {
                 noBtn.style.position = 'absolute';
             }
 
-            // Vergroot de JA knop
             yesScale += 0.5;
             yesBtn.style.transform = `scale(${yesScale})`;
             
-            // Verander de tekst van de NEE knop
             if (noClickCount < noTexts.length) {
                 noBtn.innerText = noTexts[noClickCount];
             } else {
@@ -75,12 +75,11 @@
             }
             noClickCount++;
 
-            // Verplaats de NEE knop naar een willekeurige plek op het scherm
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
             
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
+            noBtn.style.left = `${Math.max(10, x)}px`;
+            noBtn.style.top = `${Math.max(10, y)}px`;
         }
 
         noBtn.addEventListener('mouseover', moveButton);
